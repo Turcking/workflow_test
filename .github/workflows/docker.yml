@@ -13,7 +13,5 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: sigstore/cosign-installer@v4.0.0
-      - run: |
-        echo "$USER: $SIGSTORE_ID_TOKEN"
-      - run: |
-        docker login --get-login
+      - run: "echo \"$USER: $SIGSTORE_ID_TOKEN\""
+      - run: "docker login --get-login"
