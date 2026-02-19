@@ -14,10 +14,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: sigstore/cosign-installer@v4.0.0
-      - uses: docker/setup-qemu-action@v3
-      - uses: docker/setup-buildx-action@v3
       - uses: docker/build-push-action@v6
         with:
           push: true
           tags: "ghcr.io/turcking/workflow-test:latest"
-      - run: "export"
+      - run: "cosign sign --yes ghcr.io/turcking/workflow-test:latest"
