@@ -1,0 +1,8 @@
+name: test docker
+on: [push]
+jobs:
+  test-sigstore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: sigstore/cosign-installer
+      - run: echo $SIGSTORE_ID_TOKEN
