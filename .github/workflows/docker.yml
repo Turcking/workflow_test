@@ -19,5 +19,5 @@ jobs:
       - uses: docker/build-push-action@v6
         with:
           push: true
-          tags: "Turcking/workflow-test:latest"
+          tags: "ghcr.io/Turcking/workflow-test:latest"
       - run: "export"
