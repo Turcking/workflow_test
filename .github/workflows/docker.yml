@@ -20,4 +20,8 @@ jobs:
           push: true
           tags: "ghcr.io/turcking/workflow-test:latest"
           labels: "org.opencontainers.image.source=https://github.com/Turcking/workflow_test"
-      - run: "cosign sign --yes ghcr.io/turcking/workflow-test:latest@${{ steps.build-push-action.outputs.digest }}"
+      - uses: actions/attest-build-provenance@v3
+        with:
+          subject-name: "ghcr.io/turcking/workflow-test"
+          subject-digest: ${{ steps.build-push-action.outputs.digest }}
+          push-to-registry: true
