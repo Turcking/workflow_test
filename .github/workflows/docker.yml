@@ -15,7 +15,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: sigstore/cosign-installer@v4.0.0
       - uses: docker/build-push-action@v6
+        id: build-push-action
         with:
           push: true
           tags: "ghcr.io/turcking/workflow-test:latest"
-      - run: "cosign sign --yes ghcr.io/turcking/workflow-test:latest"
+      - run: "cosign sign --yes ghcr.io/turcking/workflow-test:latest@${{ steps.build-push-action.outputs.digest }}"
