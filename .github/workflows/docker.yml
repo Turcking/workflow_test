@@ -14,15 +14,17 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: sigstore/cosign-installer@v4.0.0
       - uses: docker/build-push-action@v6
         id: build-push-action
         with:
           push: true
           tags: "ghcr.io/turcking/workflow-test:latest"
           labels: "org.opencontainers.image.source=https://github.com/Turcking/workflow_test"
+          provenance: false
+          sbom: false
+        env:
+          DOCKER_BUILD_SUMMARY: false
       - uses: actions/attest-build-provenance@v3
         with:
           subject-name: "ghcr.io/turcking/workflow-test"
           subject-digest: ${{ steps.build-push-action.outputs.digest }}
-          push-to-registry: true
