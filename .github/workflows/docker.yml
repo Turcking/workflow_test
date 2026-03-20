@@ -8,23 +8,26 @@ jobs:
       id-token: write
       attestations: write
     runs-on: ubuntu-latest
+    env:
+      REGISTRY: "ghcr.io"
+      IMAGE_NAME: "${{ github.repository }}"
     steps:
       - uses: docker/login-action@v3
         with:
-          registry: ghcr.io
+          registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/build-push-action@v6
         id: build-push-action
         with:
           push: true
-          tags: "ghcr.io/turcking/workflow-test:latest"
-          labels: "org.opencontainers.image.source=https://github.com/Turcking/workflow_test"
+          tags: "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
+          labels: "org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}"
           provenance: false
           sbom: false
         env:
           DOCKER_BUILD_SUMMARY: false
       - uses: actions/attest-build-provenance@v3
         with:
-          subject-name: "ghcr.io/turcking/workflow-test"
+          subject-name: "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build-push-action.outputs.digest }}"
           subject-digest: ${{ steps.build-push-action.outputs.digest }}
