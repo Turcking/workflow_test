@@ -10,12 +10,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       REGISTRY: "ghcr.io"
-      IMAGE_NAME: "${{ github.repository }}"
+      IMAGE_NAME: "Turcking/WorkflowTest"
     steps:
       - uses: actions/github-script@v8
         with:
           script: |
-            core.exportVariable("IMAGE_NAME", process.env.IMAGE_NAME.toLowerCase().replaceAll("_", "-"));
+            core.exportVariable("IMAGE_NAME", process.env.IMAGE_NAME.replaceAll(new RegExp("([a-z0-9])([A-Z])", "g"), "$1-$2").toLowerCase());
       - uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
